@@ -12,5 +12,5 @@ for (i in 12:15) {
 }
 
 # Mean and standard deviation for Q1
-mean_satis <- mean(na.omit(data[,2]))
-std_satis <- sd(na.omit(data[,2]))
+mean_satis <- mean(na.omit(data[,'Q1']))
+std_satis <- sd(na.omit(data[,'Q1']))
