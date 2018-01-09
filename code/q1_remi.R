@@ -39,6 +39,7 @@ data_satisfied <- na.omit(data_satisfaction[data_satisfaction$Q1 >= mean_satisfa
 data_satisfied <- data_satisfied %>% left_join(data_client, by = c("Meta_donnee.3" = "ID_GRC"))
 
 # diagram of the nb of clients according to typology 
+par(mar=c(4, 8, 4, 2) + 0.1)
 barplot(t(cbind(table(data_insatisfied$TYPOLOGIE),table(data_neutral$TYPOLOGIE),table(data_satisfied$TYPOLOGIE))), 
         horiz = TRUE, xlab = "nb of clients", 
         col=c("#F5BCA9","#F7D358","#D8F781"), space = 2, las = 1,
