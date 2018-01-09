@@ -6,6 +6,7 @@ if (FALSE) {
 library(tm)
 library(tokenizers)
 
+rm(list = ls(all = TRUE))
 
 corpus <- data.frame()
 setwd('~/Documents/DMBD/DMBD/big_data_project_confidential/')
@@ -43,7 +44,12 @@ for (file in list.files(pattern="SAT*")) {
 
 
 corpus_bad <- Corpus(DataframeSource(corpus))
-tm <- tm_map(corpus_bad, removeWords, stopwords("fr"))
+skipWordsfr <- function(x) removeWords(x, stopwords("fr"))
+skipWords <- function(x) removeWords(x, c("j'"))
+funs <- list(skipWords,
+             skipWordsfr)
+tm <-tm_map(corpus_bad, FUN = tm_reduce, tmFuns = funs)
+
 whole_txt = apply(data.frame(tm$content),1,paste,collapse=". ")
 
 ngrams_tokenizer <- function(x) {
