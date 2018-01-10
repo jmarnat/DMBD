@@ -9,7 +9,9 @@ library(tokenizers)
 rm(list = ls(all = TRUE))
 
 corpus <- data.frame()
-setwd('~/Documents/DMBD/DMBD/big_data_project_confidential/')
+# setwd('~/Documents/DMBD/DMBD/big_data_project_confidential/')
+setwd(dir = "/home/mathieu/Documents/Master/M2/S3/BigData/Projet")
+
 for (file in list.files(pattern="SAT*")) {
   # print(file)
   doc <- readLines(file)[-2]
@@ -55,7 +57,7 @@ whole_txt = apply(data.frame(tm$content),1,paste,collapse=". ")
 ngrams_tokenizer <- function(x) {
   unlist(tokenize_ngrams(x,lowercase = TRUE, n=3, n_min=3))
 }
-ctrls <- list(removePunctuation=TRUE, tokenize = ngrams_tokenizer,removeNumbers=TRUE, stemming=TRUE, wordLengths=c(3,Inf))
+ctrls <- list(removePunctuation=TRUE, tokenize = ngrams_tokenizer, removeNumbers=TRUE, stemming=TRUE, wordLengths=c(3,Inf))
 
 tf <- termFreq(whole_txt, control = ctrls)
 most_freq_tf <- data.frame(findMostFreqTerms(tf, n = 100))
