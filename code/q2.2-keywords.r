@@ -42,24 +42,41 @@ for (file in list.files(pattern="SAT*")) {
 }  
 
 
-
+shorts <- c('j','c','a','y','à','d','n','ere','m','l')
 corpus_bad <- Corpus(DataframeSource(corpus))
-skipWordsfr <- function(x) removeWords(x, stopwords("fr"))
-skipWords <- function(x) removeWords(x, c("j'"))
-funs <- list(skipWords,
-             skipWordsfr)
-tm <-tm_map(corpus_bad, FUN = tm_reduce, tmFuns = funs)
+corpus_bad <- tm_map(corpus_bad, content_transformer(tolower))
+corpus_bad <- tm_map(corpus_bad, removeNumbers)
+corpus_bad <- tm_map(corpus_bad, removeWords, c(stopwords('fr'),shorts))
+corpus_bad <- tm_map(corpus_bad, removePunctuation)
 
-whole_txt = apply(data.frame(tm$content),1,paste,collapse=". ")
+tm <- data.frame(corpus_bad$content)
+# View(tm)
 
+whole_txt = apply(tm,1,paste,collapse=". ")
+
+n_for_grams <- 5
 ngrams_tokenizer <- function(x) {
-  unlist(tokenize_ngrams(x,lowercase = TRUE, n=3, n_min=3))
+  unlist(tokenize_ngrams(x,lowercase = TRUE, n=5, n_min=5))
 }
-ctrls <- list(removePunctuation=TRUE, tokenize = ngrams_tokenizer,removeNumbers=TRUE, stemming=TRUE, wordLengths=c(3,Inf))
+ctrls <- list(tokenize = ngrams_tokenizer, stemming=TRUE, wordLengths=c(n_for_grams*2, n_for_grams*10))
 
 tf <- termFreq(whole_txt, control = ctrls)
 most_freq_tf <- data.frame(findMostFreqTerms(tf, n = 100))
 View(most_freq_tf)
+
+
+
+
+
+
+##########################################################
+
+
+
+
+
+
+
 
 
 
