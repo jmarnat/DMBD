@@ -61,7 +61,7 @@ n_for_grams <- 5
 ngrams_tokenizer <- function(x) {
   unlist(tokenize_ngrams(x,lowercase = TRUE, n=6, n_min=3))
 }
-ctrls <- list(tokenize = ngrams_tokenizer, stemming=FALSE, wordLengths=c(n_for_grams*2, n_for_grams*10))
+ctrls <- list(tokenize = ngrams_tokenizer, stemming=FALSE)
 
 tf <- termFreq(whole_txt, control = ctrls)
 most_freq_tf <- data.frame(findMostFreqTerms(tf, n = 100))
