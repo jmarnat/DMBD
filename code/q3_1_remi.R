@@ -112,4 +112,41 @@ duplicated2 <- function(x){
 
 data_satisfaction <- data_satisfaction[duplicated2(data_satisfaction$Meta_donnee.3),]
 
+# Generation of the dataframe evolution to see the difference between two survey for the same id
+evolution = data.frame()
+for (i in 1:(length(data_satisfaction$Meta_donnee.3)-1)){
+  if (data_satisfaction$Meta_donnee.3[i] == data_satisfaction$Meta_donnee.3[i+1]){
+    evolution <- rbind(evolution,c(data_satisfaction$Q1[i+1]-data_satisfaction$Q1[i],data_satisfaction$Q1[i]))
+  }
+}
+colnames(evolution) <- c("global","first")
+
+evolution = data.frame()
+for (i in 1:(length(data_satisfaction$Meta_donnee.3)-1)){
+  if (data_satisfaction$Meta_donnee.3[i] == data_satisfaction$Meta_donnee.3[i+1]){
+    evolution <- rbind(evolution,c(data_satisfaction$Q1[i+1]-data_satisfaction$Q1[i],data_satisfaction$Q1[i],data_satisfaction$TRANCHE_AGE[i],data_satisfaction$NATURE_PERSONNE[i],data_satisfaction$SEGMENTATION_DISTRIBUTIVE[i],data_satisfaction$MARCHE_CSP[i],data_satisfaction$MARCHE_PSO[i],data_satisfaction$TYPOLOGIE[i]))
+  }
+}
+colnames(evolution) <- c("global","first","Tranche d'age","Nature","Segmentation","Marche_CSP","Marche_PSO","Typologie")
+
+
+# Histogram of evolution
+barplot(t(table(evolution$global)), 
+        horiz = FALSE, ylab = "nb of clients", 
+        space = 2, las = 1,
+        main = "Evolution of the grade between two satisfaction surveys - Global")
+box()
+#dev.print(device = png, file = "Evolution_of_the_grade_between_two_satisfaction_surveys_-_Global.png", width = 600)
+
+# in function of the first grade
+for (i in 0:10) {
+  title <- paste("Evolution of the grade after a ",toString(i),sep="")
+  barplot(t(table(evolution$global[evolution$first == i])), 
+          horiz = FALSE, ylab = "nb of clients", ylim = c(0,70),
+          space = 0.5, las = 1, width = 0.2,
+          main = title)
+  box()
+  file_name <- paste("Evolution_of_the_grade_after_a_",toString(i),".png",sep="")
+  # dev.print(device = png, file = file_name, width = 600)
+}
 
