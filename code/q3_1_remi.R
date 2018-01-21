@@ -227,3 +227,5 @@ for (i in levels(evolution$MARCHE_PSO)) {
   }
 }
 
+remove(title)
+remove(file_name)
