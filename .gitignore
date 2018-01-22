@@ -8,4 +8,7 @@ report/*.out
 report/*.synctex.gz
 report/*.toc
 *.tgz
+*confidential*
+.RData
+.Rhistory
 
