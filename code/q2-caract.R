@@ -125,10 +125,15 @@ for(word in rownames(most_freq_tf)){
   for(comment in data_insatisfied$text){
     if(grepl(wregex, comment)){
       # print(comment)
-      caract <- rbind(caract,data_insatisfied[data_insatisfied$text==comment,c("TRANCHE_AGE","MARCHE_PSO","TYPOLOGIE")])
+      caract <- rbind(caract,data_insatisfied[data_insatisfied$text==comment,c("TRANCHE_AGE","NATURE_PERSONNE","SEGMENTATION_DISTRIBUTIVE","MARCHE_CSP","MARCHE_PSO","TYPOLOGIE")])
     }
   }
 }
 
-sum(most_freq_tf)
+barplot(t(table(caract$SEGMENTATION_DISTRIBUTIVE, exclude = c('','.','NULL','N'))), 
+        horiz = FALSE, ylab = "nb of clients", 
+        space = 2, las = 1,
+        main = "Comment insatisfaction - SEGMENTATION_DISTRIBUTIVE")
+box()
+
 
