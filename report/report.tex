@@ -56,13 +56,19 @@
 
 \newpage
 \section{Introduction} % jos
-	This project aims at studying a dataset given by the University, in collaboration with Groupama, a French insurance group. As we will see in the next section, the dataset is composed of relational 
+\label{sec:intro}
+	This project aims at studying a dataset given by the University, in collaboration with Groupama, a French insurance group. As we will see in the next section, the dataset is composed of relational tables, and a set of surveys answers from customers. The goal is to find the actors -- words, sequence of words -- of (un)satisfaction according to the grades the customers gave in the surveys ; analysis the complaints in function of the customer category, profile, area ; and study the evolution of the customers satisfaction.
+
+    Section~\ref{sec:data_descr} presents the given dataset, section~\ref{sec:dataset_load} explains how we loaded and the issues we had to face, section~\ref{sec:sat_survey_anal},\ref{sec:recl_anal} and \ref{sec:com_anal} presents the analysis of the customers satisfaction surveys according to various variables, the reclamations reasons, and the comments analysis in satisfaction surveys.
 
 \section{Description of the dataset} % jos
+\label{sec:data_descr}
+
+
 	This dataset the following tables, split in two subsets:
     \begin{enumerate}
     	\item Relational Database (6 tables):
-    	\begin{enumerate}
+    	\begin{enumerate}%[noitemsep]
             \item \tw{BASE\_Donnees\_Clients} : informations about the customers (ID, age, living area, ...) ;
             \item \tw{BASE\_Structure\_Commerciale} : informations about the company's employees (agency, region, ...) ;
             \item \tw{BASE\_Demandes\_clients\_hors\_reclamations} : various requests from the customers ;
@@ -77,18 +83,19 @@
 	\end{enumerate}
     All the tables that concerns customers are linked together with a customer ID (\tw{ID\_GRC})
     Of course, this data is strictly confidential, and has been anonymized beforehand. 
-    
-    
 
 \section{Loading the dataset}
+\label{sec:dataset_load}
 	The dataset is a set of tables formatted in CSV (comma separated values), easily readable and loadable in most programming languages. It has the following form:
     \begin{itemize}[noitemsep]
     	\item the first row describes the names of the variables (IDs, dates, questions, ...);
         \item then, each row represents the data (either clients, an answer to a survey, a request, ...).
     \end{itemize}
-    The CSV format works well when the semi-colons within a cell are escaped (\textit{e.g.} `;' $\rightarrow$ `$\backslash$;'), but it wasn't the case, which is a real problem if we don't fix this issue. Since the number of columns is increased by how much there is unescaped semi-colons in a row, we decided to remove all these row using this property. It's a loss of data, but treating these rows would have been to much work, and it would be the work of the data pre-processor to escape the semi-colons efficiently.
+    The CSV format works well when the semi-colons within a cell are escaped (\textit{e.g.} `;' $\rightarrow$ `$\backslash$;'), but it wasn't the case, which is a real problem if we don't fix this issue. Since the number of columns is increased by how much there is unescaped semi-colons in a row, we decided to remove all these row using this property. It's a loss of data, but treating these rows would have been to much work, and it would be the work of the data pre-processor to escape the semi-colons efficiently. \\
+    Once these rows removed, we obtained a set of dataframes.
 
 \section{Analysis of the different satisfaction surveys}
+\label{sec:sat_survey_anal}
 	In this section, we will firstly try to see where are the more and the less satisfied customers of the society. After that, to complete our study, we will also analyze the level of satisfaction of the customers according to others criteria. Finally, we will analyze the evolution of the level of satisfaction of customers.
     
     \subsection{How do we have to handle the dataset?}
@@ -109,7 +116,7 @@
     
     \subsubsection{Segmentation Distributive}
     For this criterion~\ref{fig:SEGMENTATION_DISTRIBUTIVE}, we have to remember that :
-    \begin{itemize}
+    \begin{itemize}[noitemsep]
     \item N = Nouveau,
     \item S1 = A laisser venir,
     \item S2 = A fidéliser,
@@ -141,15 +148,16 @@
     \subsubsection{According to other criteria}
     We also have computed the evolution of the level of satisfaction according to the 'Typologie', the 'Marche CSP', the 'Tranche d'age', the 'Segmentation distributive' and the 'Nature'. Because of a lack of time, we do not have to look farther in this direction. The different figure are available in the appendix~\ref{app:evolution}
     
-\section{Analysis of the client reclamation and termination}
+\section{Analysis of the custommers reclamations and terminations}
+\label{sec:recl_anal}
 	The goal of this section is to better understood who are the client who do a reclamation or terminate their contract. To reproduce our result please edit the script \tw{q2\_1.R} by changing the first line and put the path where the table are. 
-    \subsection{Reclamation}
+    \subsection{Reclamations}
     
     	\subsubsection{Type}
-    		Firstly we simply compute the proportion of each possible type of reclamation\ref{fig:reclamtion_type} (sinistre, gestion contrat, cotisation, resiliation, souscription, contrat, commerciale, encaissement). As we can see on the pie chart the most hot topic is "sinistre" that's not very remarkable, but the second one is "gestion contrat" and the number of reclamation with this type is more than two times the number of reclamation with "cotisation". If we suppose that the real meaning of "gestion contrat" is : the client claim information about his contract, then maybe the clients are not enough aware about their contract, so it's will be interesting to analysis witch are the real topic of their reclamation. 
+    		Firstly we simply compute the proportion of each possible type of reclamation\ref{fig:reclamtion_type} (sinistre, gestion contrat, cotisation, resiliation, souscription, contrat, commerciale, encaissement). As we can see on the pie chart the most hot topic is "sinistre" that's not very remarkable, but the second one is gestion contrat" and the number of reclamation with this type is more than two times the number of reclamation with "cotisation". If we suppose that the real meaning of "gestion contrat" is : the client claim information about his contract, then maybe the custommers are not enough aware about their contract, so it's will be interesting to analysis witch are the real topic of their reclamation. 
             
        \subsubsection{Typologie}
-       		Thanks to the "client" table we are able to know what is the "typologie" of a client for each reclamation. In a first hand we can simply count the number of reclamation for a given "typologie"\ref{fig:reclamtion_typo}. But it exist a bias, by looking this chart we can deduce that clients "rural dynamique" has more "reclamation" than the others, but they also are the most representative categories in the "client" table. So if we look in term of proportion, by dividing our result by the number of "client" with this "typologie", we got a second chart\ref{fig:reclamtion_typo2}, and as we can see the "typologie" as no impact on the proportion of reclamation.
+       		Thanks to the "client" table we are able to know what is the "typologie" of a client for each reclamation. In a first hand we can simply count the number of reclamation for a given "typologie"\ref{fig:reclamtion_typo}. But it exist a bias, by looking this chart we can deduce that custommers "rural dynamique" has more "reclamation" than the others, but they also are the most representative categories in the "client" table. So if we look in term of proportion, by dividing our result by the number of "client" with this "typologie", we got a second chart\ref{fig:reclamtion_typo2}, and as we can see the "typologie" as no impact on the proportion of reclamation.
             
        \subsubsection{Marche PSO}
        		We do the same thing as before but with the characteristic "MARCHE\_PSO" (agricole, acps, particulier, collectivites)\ref{fig:reclamtion_pso1}\ref{fig:reclamtion_pso2}. But in this case we can see the class "agricole" have more reclamation (in proportion) than the other class. We compute their "TYPE" of reclamation\ref{fig:reclamtion_agri}. 
@@ -164,433 +172,425 @@
             \item MARCHE\_PSO\ref{fig:resiliation_pso1},\ref{fig:resiliation_pso2}
             \item Departement\ref{fig:resiliation_dep1}
             \end{itemize}
-            
 
+\section{Comments analysis in satisfaction surveys}
+\label{sec:com_anal}
+    The goal of this section was to understand the reasons for customer satisfaction and dissatisfaction. To reproduce our results please edit the script \tw{q2$\_$keywords.R} by changing the first and put the path where the table are.
 
-\begin{comment}
-	\textit{Analysis of customer complaints by customer category, profile and area. Are there categories, profiles,
-areas or combinations of these attributes for which customers are less satisfied.}
-	\newline
-    \textit{Analysis of customer comments in complaints. E.g., what words / sequences of words in comments explain
-the best the customer satisfaction / dissatisfaction. Find correlations between customer evaluations and
-their comments. The aim is to explain why the customer are not satisfied with the analysis of their
-comments and make the link between the reason of their dissatisfaction and their characteristics.}
-\end{comment}
+    At first, we gathered all the comments from the satisfaction according to the satisfaction rating: one set for the good ratings -- the highest 30\%) and the bad ratings.
+    Then, we removes the French stop-words: prepositions, articles, pronouns ; as well as numbers. And retrieved the roots of words by stemming, in order to remove conjugations, feminine or plural forms. This allowed us to group the words together more efficiently.
+    Finally, we computer the $n$-grams for $n \in [1..5]$. For example, the sentence `I like your car' has the following 2-grams: `I like', `like your', and `your car' ;
+    and we extracted the 20 most frequent terms on this $n$-grams dataset.
+    In order to keep only the meaning-full $n$-grams, we computed the intersection between the satisfied and unsatisfied $n$-grams, and removed them from the tables. Thus, the $n$-grams are exclusively attributed to on set of comments.
 
-\section{Comment analysis in satisfaction surveys}
-The goal of this section was to understand the reasons for customer satisfaction and dissatisfaction. To reproduce our results please edit the script \tw{q2$\_$keywords.R} by changing the first and put the path where the table are.
+    We obtained what is shown in tables \ref{tab:gram1_tf} to \ref{tab:gram5_tf}. You can see for each set of two tables: 1) on the left: the 20 most frequent $n$-grams according to satisfied customers and 2) on the right: according to the unsatisfied clients.
 
-At first, we gathered all the comments from the satisfaction according to the satisfaction rating: one set for the good ratings -- the highest 30\%) and the bad ratings.
-Then, we removes the French stop-words: prepositions, articles, pronouns ; as well as numbers. And retrieved the roots of words by stemming, in order to remove conjugations, feminine or plural forms. This allowed us to group the words together more efficiently.
-Finally, we computer the $n$-grams for $n \in [1..5]$. For example, the sentence `I like your car' has the following 2-grams: `I like', `like your', and `your car' ;
-and we extracted the 20 most frequent terms on this $n$-grams dataset.
-In order to keep only the meaning-full $n$-grams, we computed the intersection between the satisfied and unsatisfied $n$-grams, and removed them from the tables. Thus, the $n$-grams are exclusively attributed to on set of comments.
-
-We obtained what is shown in tables \ref{tab:gram1_tf} to \ref{tab:gram5_tf}. You can see for each set of two tables: 1) on the left: the 20 most frequent $n$-grams according to satisfied clients and 2) on the right: according to the unsatisfied clients.
-
-
-        
-        
-\section{Conclusions}
+     
+\section{Conclusion}
+\label{sec:ccl}
 
 
 \newpage
 \appendix
-        \begin{figure}[!ht]
-        \section{Levels of satisfaction}
-        \label{app:satisfaction}
-        	\subsection{Global}
-        	\centering
-                \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_NATURE_PERSONNE.png}
-                \caption{Level of satisfaction according to NATURE PERSONNE}
-                \label{fig:NATURE_PERSONNE}
-        \end{figure}
-        
-        \begin{figure}[!ht]
-        	\centering
-                \includegraphics[height = 10 cm]{Remi/Level_of_satisfaction_according_to_SEGMENTATION_DISTRIBUTIVE.png}
-                \caption{Level of satisfaction according to SEGMENTATION DISTRIBUTIVE}
-                \label{fig:SEGMENTATION_DISTRIBUTIVE}
-        \end{figure}
-        
-        \begin{figure}[!ht]
-        	\centering
-                \includegraphics[height = 10 cm]{Remi/Level_of_satisfaction_according_to_TRANCHE_AGE.png}
-                \caption{Level of satisfaction according to TRANCHE AGE}
-                \label{fig:TRANCHE_AGE}
-        \end{figure}
-        
-        \begin{figure}[!ht]
-        	\centering
-                \includegraphics[height = 10 cm]{Remi/Level_of_satisfaction_according_to_TYPE_OF_SURVEY.png}
-                \caption{Level of satisfaction according to TYPE OF SURVEY}
-                \label{fig:TYPE_OF_SURVEY}
-        \end{figure}
-        
-        \begin{figure}[!ht]
-        	\centering
-                \includegraphics[height = 10 cm]{Remi/Level_of_satisfaction_according_to_TYPOLOGIE.png}
-                \caption{Level of satisfaction according to TYPOLOGIE}
-                \label{fig:TYPOLOGIE}
-        \end{figure}
+    \begin{figure}[!ht]
+    \section{Levels of satisfaction}
+    %\label{sec:}
+    \label{app:satisfaction}
+    	\subsection{Global}
+    	\centering
+            \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_NATURE_PERSONNE.png}
+            \caption{Level of satisfaction according to NATURE PERSONNE}
+            \label{fig:NATURE_PERSONNE}
+    \end{figure}
+    
+    \begin{figure}[!ht]
+    	\centering
+            \includegraphics[height = 10 cm]{Remi/Level_of_satisfaction_according_to_SEGMENTATION_DISTRIBUTIVE.png}
+            \caption{Level of satisfaction according to SEGMENTATION DISTRIBUTIVE}
+            \label{fig:SEGMENTATION_DISTRIBUTIVE}
+    \end{figure}
+    
+    \begin{figure}[!ht]
+    	\centering
+            \includegraphics[height = 10 cm]{Remi/Level_of_satisfaction_according_to_TRANCHE_AGE.png}
+            \caption{Level of satisfaction according to TRANCHE AGE}
+            \label{fig:TRANCHE_AGE}
+    \end{figure}
+    
+    \begin{figure}[!ht]
+    	\centering
+            \includegraphics[height = 10 cm]{Remi/Level_of_satisfaction_according_to_TYPE_OF_SURVEY.png}
+            \caption{Level of satisfaction according to TYPE OF SURVEY}
+            \label{fig:TYPE_OF_SURVEY}
+    \end{figure}
+    
+    \begin{figure}[!ht]
+    	\centering
+            \includegraphics[height = 10 cm]{Remi/Level_of_satisfaction_according_to_TYPOLOGIE.png}
+            \caption{Level of satisfaction according to TYPOLOGIE}
+            \label{fig:TYPOLOGIE}
+    \end{figure}
 
-        \begin{figure}[!ht]
-        \subsection{Nature Personne}
-        	\centering
-                \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_NATURE_PERSONNE2.png}
-                \caption{Level of satisfaction according to NATURE PERSONNE}
-                \label{fig:NATURE_PERSONNE2}
-        \end{figure}
+    \begin{figure}[!ht]
+    \subsection{Nature Personne}
+    	\centering
+            \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_NATURE_PERSONNE2.png}
+            \caption{Level of satisfaction according to NATURE PERSONNE}
+            \label{fig:NATURE_PERSONNE2}
+    \end{figure}
 
-        \begin{figure}[!ht]
-        \subsection{Segmentation Distributive}
-        	\centering
-                \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_SEGMENTATION_DISTRIBUTIVE4.png}
-                \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_SEGMENTATION_DISTRIBUTIVE6.png}
-                \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_SEGMENTATION_DISTRIBUTIVE8.png}
-                \caption{Level of satisfaction according to SEGMENTATION DISTRIBUTIVE}
-                \label{fig:SEGMENTATION_DISTRIBUTIVE8}
-        \end{figure}
+    \begin{figure}[!ht]
+    \subsection{Segmentation Distributive}
+    	\centering
+            \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_SEGMENTATION_DISTRIBUTIVE4.png}
+            \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_SEGMENTATION_DISTRIBUTIVE6.png}
+            \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_SEGMENTATION_DISTRIBUTIVE8.png}
+            \caption{Level of satisfaction according to SEGMENTATION DISTRIBUTIVE}
+            \label{fig:SEGMENTATION_DISTRIBUTIVE8}
+    \end{figure}
 
-      
+  
 
-        \begin{figure}[!ht]
-        \subsection{Type Survey}
-        	\centering
-                \includegraphics[width = 8.5 cm]{Remi/Level_of_satisfaction_according_to_TYPE_OF_SURVEY2.png}~
-                \includegraphics[width = 8.5 cm]{Remi/Level_of_satisfaction_according_to_TYPE_OF_SURVEY4.png}
-                \includegraphics[width = 8.5 cm]{Remi/Level_of_satisfaction_according_to_TYPE_OF_SURVEY6.png}~
-                \includegraphics[width = 8.5 cm]{Remi/Level_of_satisfaction_according_to_TYPE_OF_SURVEY8.png}
-                \includegraphics[width = 8.5 cm]{Remi/Level_of_satisfaction_according_to_TYPE_OF_SURVEY10.png}~
-                \includegraphics[width = 8.5 cm]{Remi/Level_of_satisfaction_according_to_TYPE_OF_SURVEY12.png}
-                \includegraphics[width = 8.5 cm]{Remi/Level_of_satisfaction_according_to_TYPE_OF_SURVEY14.png}~
-                \includegraphics[width = 8.5 cm]{Remi/Level_of_satisfaction_according_to_TYPE_OF_SURVEY16.png}
-                \caption{Level of satisfaction according to TYPE OF SURVEY}
-                \label{fig:TYPE_OF_SURVEY2}
-        \end{figure}
+    \begin{figure}[!ht]
+    \subsection{Type Survey}
+    	\centering
+            \includegraphics[width = 8.5 cm]{Remi/Level_of_satisfaction_according_to_TYPE_OF_SURVEY2.png}~
+            \includegraphics[width = 8.5 cm]{Remi/Level_of_satisfaction_according_to_TYPE_OF_SURVEY4.png}
+            \includegraphics[width = 8.5 cm]{Remi/Level_of_satisfaction_according_to_TYPE_OF_SURVEY6.png}~
+            \includegraphics[width = 8.5 cm]{Remi/Level_of_satisfaction_according_to_TYPE_OF_SURVEY8.png}
+            \includegraphics[width = 8.5 cm]{Remi/Level_of_satisfaction_according_to_TYPE_OF_SURVEY10.png}~
+            \includegraphics[width = 8.5 cm]{Remi/Level_of_satisfaction_according_to_TYPE_OF_SURVEY12.png}
+            \includegraphics[width = 8.5 cm]{Remi/Level_of_satisfaction_according_to_TYPE_OF_SURVEY14.png}~
+            \includegraphics[width = 8.5 cm]{Remi/Level_of_satisfaction_according_to_TYPE_OF_SURVEY16.png}
+            \caption{Level of satisfaction according to TYPE OF SURVEY}
+            \label{fig:TYPE_OF_SURVEY2}
+    \end{figure}
 
-        
-         \begin{figure}[!ht]
-        	\centering
-                 \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_TYPE_OF_SURVEY17.png}
-                 \caption{Level of satisfaction according to TYPE OF SURVEY - Computed Average}
-                 \label{fig:TYPE_OF_SURVEY17}
-         \end{figure}
+    
+     \begin{figure}[!ht]
+    	\centering
+             \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_TYPE_OF_SURVEY17.png}
+             \caption{Level of satisfaction according to TYPE OF SURVEY - Computed Average}
+             \label{fig:TYPE_OF_SURVEY17}
+     \end{figure}
 
-		\begin{figure}[!ht]
-        \subsection{Tranche Age}
-        	\centering
-                \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_TRANCHE_AGE2.png}
-                \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_TRANCHE_AGE4.png}
-                \caption{Level of satisfaction according to TRANCHE AGE}
-                \label{fig:TRANCHE_AGE4}
-        \end{figure}
+	\begin{figure}[!ht]
+    \subsection{Tranche Age}
+    	\centering
+            \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_TRANCHE_AGE2.png}
+            \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_TRANCHE_AGE4.png}
+            \caption{Level of satisfaction according to TRANCHE AGE}
+            \label{fig:TRANCHE_AGE4}
+    \end{figure}
 
-        \begin{figure}[!ht]
-        \subsection{Typologie}
-        	\centering
-                \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_TYPOLOGIE2.png}
-                \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_TYPOLOGIE4.png}
-                \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_TYPOLOGIE6.png}
-                \caption{Level of satisfaction according to TYPOLOGIE}
-                \label{fig:TYPOLOGIE2}
-        \end{figure}
+    \begin{figure}[!ht]
+    \subsection{Typologie}
+    	\centering
+            \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_TYPOLOGIE2.png}
+            \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_TYPOLOGIE4.png}
+            \includegraphics[width = 10 cm]{Remi/Level_of_satisfaction_according_to_TYPOLOGIE6.png}
+            \caption{Level of satisfaction according to TYPOLOGIE}
+            \label{fig:TYPOLOGIE2}
+    \end{figure}
 
 \clearpage
 
 	\begin{figure}[!ht]
 			\section{Evolution of the satisfaction}
-			\label{app:evolution}
-				\subsection{According to the previous mark}
-			
-                \centering
-                \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_between_two_satisfaction_surveys_-_Global.png}
-                \caption{Evolution of the grade between two satisfaction surveys - Global}
-                \label{fig:e_Global}
-        \end{figure}
+        %\label{sec:}
+		\label{app:evolution}
+			\subsection{According to the previous mark}
+		
+            \centering
+            \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_between_two_satisfaction_surveys_-_Global.png}
+            \caption{Evolution of the grade between two satisfaction surveys - Global}
+            \label{fig:e_Global}
+    \end{figure}
 
-        \begin{figure}[!ht]
-                \centering
-                \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_after_a_1.png}
-                \caption{Evolution of the grade after a 1}
-                \label{fig:e_1}
-        \end{figure}
+    \begin{figure}[!ht]
+            \centering
+            \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_after_a_1.png}
+            \caption{Evolution of the grade after a 1}
+            \label{fig:e_1}
+    \end{figure}
 
-        \begin{figure}[!ht]
-                \centering
-                \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_after_a_3.png}
-                \caption{Evolution of the grade after a 3}
-                \label{fig:e_3}
-        \end{figure}
+    \begin{figure}[!ht]
+            \centering
+            \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_after_a_3.png}
+            \caption{Evolution of the grade after a 3}
+            \label{fig:e_3}
+    \end{figure}
 
-        \begin{figure}[!ht]
-                \centering
-                \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_after_a_5.png}
-                \caption{Evolution of the grade after a 5}
-                \label{fig:e_5}
-        \end{figure}
+    \begin{figure}[!ht]
+            \centering
+            \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_after_a_5.png}
+            \caption{Evolution of the grade after a 5}
+            \label{fig:e_5}
+    \end{figure}
 
-        \begin{figure}[!ht]
-                \centering
-                \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_after_a_7.png}
-                \caption{Evolution of the grade after a 7}
-                \label{fig:e_7}
-        \end{figure}
+    \begin{figure}[!ht]
+            \centering
+            \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_after_a_7.png}
+            \caption{Evolution of the grade after a 7}
+            \label{fig:e_7}
+    \end{figure}
 
-        \begin{figure}[!ht]
-                \centering
-                \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_after_a_9.png}
-                \caption{Evolution of the grade after a 9}
-                \label{fig:e_9}
-        \end{figure}
+    \begin{figure}[!ht]
+            \centering
+            \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_after_a_9.png}
+            \caption{Evolution of the grade after a 9}
+            \label{fig:e_9}
+    \end{figure}
 
-        \begin{figure}[!ht]
-                \centering
-                \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_after_a_10.png}
-                \caption{Evolution of the grade after a 10}
-                \label{fig:e_10}
-        \end{figure}
+    \begin{figure}[!ht]
+            \centering
+            \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_after_a_10.png}
+            \caption{Evolution of the grade after a 10}
+            \label{fig:e_10}
+    \end{figure}
 
-        \begin{figure}[!ht]
-				\subsection{According to Marche CSP}
-                \centering
-                \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_marche_CSP_ACPS.png}
-                \caption{Evolution of the grade for marche CSP ACPS}
-                \label{fig:e_CSP_ACPS}
-        \end{figure}
+    \begin{figure}[!ht]
+			\subsection{According to Marche CSP}
+            \centering
+            \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_marche_CSP_ACPS.png}
+            \caption{Evolution of the grade for marche CSP ACPS}
+            \label{fig:e_CSP_ACPS}
+    \end{figure}
 
-        \begin{figure}[!ht]
-                \centering
-                \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_marche_CSP_PARTICULIER.png}
-                \caption{Evolution of the grade for marche CSP PARTICULIER}
-                \label{fig:e_CSP_PARTICULIER}
-        \end{figure}
+    \begin{figure}[!ht]
+            \centering
+            \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_marche_CSP_PARTICULIER.png}
+            \caption{Evolution of the grade for marche CSP PARTICULIER}
+            \label{fig:e_CSP_PARTICULIER}
+    \end{figure}
 
-        \begin{figure}[!ht]
-                \centering
-                \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_marche_CSP_RETRAITE.png}
-                \caption{Evolution of the grade for marche CSP RETRAITE}
-                \label{fig:e_CSP_RETRAITE}
-        \end{figure}
+    \begin{figure}[!ht]
+            \centering
+            \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_marche_CSP_RETRAITE.png}
+            \caption{Evolution of the grade for marche CSP RETRAITE}
+            \label{fig:e_CSP_RETRAITE}
+    \end{figure}
 
-        \begin{figure}[!ht]
-				\subsection{According to Nature}
-                \centering
-                \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_nature_PP.png}
-                \caption{Evolution of the grade for nature PP}
-                \label{fig:e_PP}
-        \end{figure}
+    \begin{figure}[!ht]
+			\subsection{According to Nature}
+            \centering
+            \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_nature_PP.png}
+            \caption{Evolution of the grade for nature PP}
+            \label{fig:e_PP}
+    \end{figure}
 
-        \begin{figure}[!ht]
-				\subsection{According to Segmentation Distributive}
-                \centering
-                \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_segmentation_N.png}
-                \caption{Evolution of the grade for segmentation N}
-                \label{fig:e_seg_N}
-        \end{figure}
+    \begin{figure}[!ht]
+			\subsection{According to Segmentation Distributive}
+            \centering
+            \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_segmentation_N.png}
+            \caption{Evolution of the grade for segmentation N}
+            \label{fig:e_seg_N}
+    \end{figure}
 
-        \begin{figure}[!ht]
-                \centering
-                \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_segmentation_S2.png}
-                \caption{Evolution of the grade for segmentation S2}
-                \label{fig:e_seg_S2}
-        \end{figure}
+    \begin{figure}[!ht]
+            \centering
+            \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_segmentation_S2.png}
+            \caption{Evolution of the grade for segmentation S2}
+            \label{fig:e_seg_S2}
+    \end{figure}
 
-        \begin{figure}[!ht]
-                \centering
-                \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_segmentation_S4.png}
-                \caption{Evolution of the grade for segmentation S4}
-                \label{fig:e_seg_S4}
-        \end{figure}
+    \begin{figure}[!ht]
+            \centering
+            \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_segmentation_S4.png}
+            \caption{Evolution of the grade for segmentation S4}
+            \label{fig:e_seg_S4}
+    \end{figure}
 
-        \begin{figure}[!ht]
-				\subsection{According to Tranche d'age}
-                \centering
-                \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_tranche_d_age_45-64-ANS.png}
-                \caption{Evolution of the grade for tranche d age 45 - 64 ANS}
-                \label{fig:e_age_45 - 64 ANS}
-        \end{figure}
+    \begin{figure}[!ht]
+			\subsection{According to Tranche d'age}
+            \centering
+            \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_tranche_d_age_45-64-ANS.png}
+            \caption{Evolution of the grade for tranche d age 45 - 64 ANS}
+            \label{fig:e_age_45 - 64 ANS}
+    \end{figure}
 
-        \begin{figure}[!ht]
-                \centering
-                \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_tranche_d_age_NULL.png}
-                \caption{Evolution of the grade for tranche d age NULL}
-                \label{fig:e_age_NULL}
-        \end{figure}
+    \begin{figure}[!ht]
+            \centering
+            \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_tranche_d_age_NULL.png}
+            \caption{Evolution of the grade for tranche d age NULL}
+            \label{fig:e_age_NULL}
+    \end{figure}
 
-        \begin{figure}[!ht]
-				\subsection{According to Typologie}
-                \centering
-                \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_typologie_2-RURAL-DYNAMIQUE.png}
-                \caption{Evolution of the grade for typologie 2- RURAL DYNAMIQUE}
-                \label{fig:e_typo2}
-        \end{figure}
+    \begin{figure}[!ht]
+			\subsection{According to Typologie}
+            \centering
+            \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_typologie_2-RURAL-DYNAMIQUE.png}
+            \caption{Evolution of the grade for typologie 2- RURAL DYNAMIQUE}
+            \label{fig:e_typo2}
+    \end{figure}
 
-        \begin{figure}[!ht]
-                \centering
-                \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_typologie_4-GRANDE-PERIPHERIE-AISEE.png}
-                \caption{Evolution of the grade for typologie 4- GRANDE PERIPHERIE AISEE}
-                \label{fig:e_typo4}
-        \end{figure}
+    \begin{figure}[!ht]
+            \centering
+            \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_typologie_4-GRANDE-PERIPHERIE-AISEE.png}
+            \caption{Evolution of the grade for typologie 4- GRANDE PERIPHERIE AISEE}
+            \label{fig:e_typo4}
+    \end{figure}
 
-        \begin{figure}[!ht]
-                \centering
-                \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_typologie_6-HORS-TERRITOIRE.png}
-                \caption{Evolution of the grade for typologie 6- HORS TERRITOIRE}
-                \label{fig:e_typo6}
-        \end{figure}
-        
+    \begin{figure}[!ht]
+            \centering
+            \includegraphics[height = 10 cm]{Remi/Evolution_of_the_grade_for_typologie_6-HORS-TERRITOIRE.png}
+            \caption{Evolution of the grade for typologie 6- HORS TERRITOIRE}
+            \label{fig:e_typo6}
+    \end{figure}
+    
         
 \clearpage
 \section{Reclamation \& termination}
-        \begin{figure}[!ht]
-        	\centering
-                \includegraphics[height = 10 cm]{Valentin/Number_of_reclamation_in_fuction_of_the_TYPE.png}
-                \caption{Number of reclamation according to their TYPE}
-                \label{fig:reclamtion_type}
-        \end{figure}
-        
-        \begin{figure}[!ht]
-        	\centering
-                \includegraphics[height = 10 cm]{Valentin/Number_of_reclamation_in_fuction_of_the_client_typologie.png}
-                \caption{Number of reclamation according to the client TYPOLOGIE}
-                \label{fig:reclamtion_typo}
-        \end{figure}
-        
-        \begin{figure}[!ht]
-        	\centering
-                \includegraphics[height = 10 cm]{Valentin/Number_of_reclamation_in_fuction_of_the_client_typologie_in_proportion.png}
-                \caption{Number of reclamation according to the client TYPOLOGIE in proportion of the client of this categorie}
-                \label{fig:reclamtion_typo2}
-        \end{figure}
-        
-        \begin{figure}[!ht]
-        	\centering
-                \includegraphics[height = 10 cm]{Valentin/Number_of_reclamation_in_fuction_of_the_client_MARCHE_PSO.png}
-                \caption{Number of reclamation according to the client MARCHE\_PSO}
-                \label{fig:reclamtion_pso1}
-        \end{figure}
-        
-        \begin{figure}[!ht]
-        	\centering
-                \includegraphics[height = 10 cm]{Valentin/Number_of_reclamation_in_fuction_of_the_client_MARCHE_PSO_proportion.png}
-                \caption{Number of reclamation according to the client MARCHE\_PSO in proportion of the client of this categorie}
-                \label{fig:reclamtion_pso2}
-        \end{figure}
-        
-        \begin{figure}[!ht]
-        	\centering
-                \includegraphics[height = 10 cm]{Valentin/Number_of_reclamation_in_fuction_of_the_client_MARCHE_PSO_proportion.png}
-                \caption{Number of reclamation according to the client MARCHE\_PSO in proportion of the client of this categorie}
-                \label{fig:reclamtion_pso3}
-        \end{figure}
-        
-        \begin{figure}[!ht]
-        	\centering
-                \includegraphics[height = 10 cm]{Valentin/Number_of_agricole_reclamation_in_fuction_of_the_TYPE.png}
-                \caption{Number of "agricole" reclamation according to the TYPE of reclamation}
-                \label{fig:reclamtion_agri}
-        \end{figure}
-        
-        \begin{figure}[!ht]
-        	\centering
-                \includegraphics[height = 10 cm]{Valentin/Number_of_reclamation_in_fuction_of_the_client_departement.png}
-                \caption{Number of reclamation according to the client departement}
-                \label{fig:reclamtion_dep1}
-        \end{figure}
-        
-        \begin{figure}[!ht]
-        	\centering
-                \includegraphics[height = 10 cm]{Valentin/Number_of_reclamation_in_fuction_of_the_client_departement.png}
-                \caption{Number of reclamation according to the client department}
-                \label{fig:reclamtion_dep2}
-        \end{figure}
-        
-        \begin{figure}[!ht]
-        	\centering
-                \includegraphics[height = 10 cm]{Valentin/Number_of_reclamation_in_fuction_of_the_client_departement_proportion.png}
-                \caption{Number of reclamation according to the client department in proportion of the client of this categorie}
-                \label{fig:reclamtion_dep3}
-        \end{figure}
-        
-        
+%\label{sec:}
+    \begin{figure}[!ht]
+    	\centering
+            \includegraphics[height = 10 cm]{Valentin/Number_of_reclamation_in_fuction_of_the_TYPE.png}
+            \caption{Number of reclamation according to their TYPE}
+            \label{fig:reclamtion_type}
+    \end{figure}
+    
+    \begin{figure}[!ht]
+    	\centering
+            \includegraphics[height = 10 cm]{Valentin/Number_of_reclamation_in_fuction_of_the_client_typologie.png}
+            \caption{Number of reclamation according to the client TYPOLOGIE}
+            \label{fig:reclamtion_typo}
+    \end{figure}
+    
+    \begin{figure}[!ht]
+    	\centering
+            \includegraphics[height = 10 cm]{Valentin/Number_of_reclamation_in_fuction_of_the_client_typologie_in_proportion.png}
+            \caption{Number of reclamation according to the client TYPOLOGIE in proportion of the client of this categorie}
+            \label{fig:reclamtion_typo2}
+    \end{figure}
+    
+    \begin{figure}[!ht]
+    	\centering
+            \includegraphics[height = 10 cm]{Valentin/Number_of_reclamation_in_fuction_of_the_client_MARCHE_PSO.png}
+            \caption{Number of reclamation according to the client MARCHE\_PSO}
+            \label{fig:reclamtion_pso1}
+    \end{figure}
+    
+    \begin{figure}[!ht]
+    	\centering
+            \includegraphics[height = 10 cm]{Valentin/Number_of_reclamation_in_fuction_of_the_client_MARCHE_PSO_proportion.png}
+            \caption{Number of reclamation according to the client MARCHE\_PSO in proportion of the client of this category}
+            \label{fig:reclamtion_pso2}
+    \end{figure}
+    
+    \begin{figure}[!ht]
+    	\centering
+            \includegraphics[height = 10 cm]{Valentin/Number_of_reclamation_in_fuction_of_the_client_MARCHE_PSO_proportion.png}
+            \caption{Number of reclamation according to the client MARCHE\_PSO in proportion of the client of this category}
+            \label{fig:reclamtion_pso3}
+    \end{figure}
+    
+    \begin{figure}[!ht]
+    	\centering
+            \includegraphics[height = 10 cm]{Valentin/Number_of_agricole_reclamation_in_fuction_of_the_TYPE.png}
+            \caption{Number of "agricole" reclamation according to the TYPE of reclamation}
+            \label{fig:reclamtion_agri}
+    \end{figure}
+    
+    \begin{figure}[!ht]
+    	\centering
+            \includegraphics[height = 10 cm]{Valentin/Number_of_reclamation_in_fuction_of_the_client_departement.png}
+            \caption{Number of reclamation according to the client department}
+            \label{fig:reclamtion_dep1}
+    \end{figure}
+    
+    \begin{figure}[!ht]
+    	\centering
+            \includegraphics[height = 10 cm]{Valentin/Number_of_reclamation_in_fuction_of_the_client_departement.png}
+            \caption{Number of reclamation according to the client department}
+            \label{fig:reclamtion_dep2}
+    \end{figure}
+    
+    \begin{figure}[!ht]
+    	\centering
+            \includegraphics[height = 10 cm]{Valentin/Number_of_reclamation_in_fuction_of_the_client_departement_proportion.png}
+            \caption{Number of reclamation according to the client department in proportion of the client of this category}
+            \label{fig:reclamtion_dep3}
+    \end{figure}
+    
+    
 
-%%%%%%%%%%%%%%  resiliation %%%%%%%%%%
-        \begin{figure}[!ht]
-        	\centering
-                \includegraphics[height = 10 cm]{Valentin/Number_of_resiliation_in_fuction_of_the_client_typologie.png}
-                \caption{Number of resiliation according to the client TYPOLOGIE}
-                \label{fig:resiliation_typo1}
-        \end{figure}
-        
-        \begin{figure}[!ht]
-        	\centering
-                \includegraphics[height = 10 cm]{Valentin/Number_of_resiliation_in_fuction_of_the_client_typologie_proportion.png}
-                \caption{Number of resiliation according to the client TYPOLOGIE in proportion of the client of this categorie}
-                \label{fig:resiliation_typo2}
-        \end{figure}
-        
-                \begin{figure}[!ht]
-        	\centering
-                \includegraphics[height = 10 cm]{Valentin/Number_of_resiliation_in_fuction_of_the_client_MARCHE_PSO.png}
-                \caption{Number of resiliation according to the client MARCHE\_PSO}
-                \label{fig:resiliation_pso1}
-        \end{figure}
-        
-        \begin{figure}[!ht]
-        	\centering
-                \includegraphics[height = 10 cm]{Valentin/Number_of_resiliation_in_fuction_of_the_client_MARCHE_PSO_proportion.png}
-                \caption{Number of resiliation according to the client MARCHE\_PSO in proportion of the client of this categorie}
-                \label{fig:resiliation_pso2}
-        \end{figure}
-        
-        \begin{figure}[!ht]
-        	\centering
-                \includegraphics[height = 10 cm]{Valentin/Number_of_resiliation_in_fuction_of_the_client_departement.png}
-                \caption{Number of resiliation according to the client department}
-                \label{fig:resiliation_dep1}
-        \end{figure}
-        
+    %%%%%%%%%%%%%%  resiliation %%%%%%%%%%
+    \begin{figure}[!ht]
+    	\centering
+            \includegraphics[height = 10 cm]{Valentin/Number_of_resiliation_in_fuction_of_the_client_typologie.png}
+            \caption{Number of resiliation according to the client TYPOLOGIE}
+            \label{fig:resiliation_typo1}
+    \end{figure}
+    
+    \begin{figure}[!ht]
+    	\centering
+            \includegraphics[height = 10 cm]{Valentin/Number_of_resiliation_in_fuction_of_the_client_typologie_proportion.png}
+            \caption{Number of resiliation according to the client TYPOLOGIE in proportion of the client of this category}
+            \label{fig:resiliation_typo2}
+    \end{figure}
+    
+            \begin{figure}[!ht]
+    	\centering
+            \includegraphics[height = 10 cm]{Valentin/Number_of_resiliation_in_fuction_of_the_client_MARCHE_PSO.png}
+            \caption{Number of resiliation according to the client MARCHE\_PSO}
+            \label{fig:resiliation_pso1}
+    \end{figure}
+    
+    \begin{figure}[!ht]
+    	\centering
+            \includegraphics[height = 10 cm]{Valentin/Number_of_resiliation_in_fuction_of_the_client_MARCHE_PSO_proportion.png}
+            \caption{Number of resiliation according to the client MARCHE\_PSO in proportion of the client of this category}
+            \label{fig:resiliation_pso2}
+    \end{figure}
+    
+    \begin{figure}[!ht]
+    	\centering
+            \includegraphics[height = 10 cm]{Valentin/Number_of_resiliation_in_fuction_of_the_client_departement.png}
+            \caption{Number of resiliation according to the client department}
+            \label{fig:resiliation_dep1}
+    \end{figure}
+    
         
 \clearpage
+\section{Term frequency on comments}
+%\label{sec:}
 
+    \begin{table}[!ht]
+		\centering
+		\input{ngrams/term-freq-sup-1-filtered.tex}~
+		\input{ngrams/term-freq-inf-1-filtered.tex}
+		\caption{1-grams frequencies for satisfied and unsatisfied}
+		\label{tab:gram1_tf}
+	\end{table}
 	\begin{table}[!ht]
-    \section{Term frequency on comments}
-			\centering
-			\input{ngrams/term-freq-sup-1-filtered.tex}~
-			\input{ngrams/term-freq-inf-1-filtered.tex}
-			\caption{1-grams frequencies for satisfied and unsatistied}
-			\label{tab:gram1_tf}
-		\end{table}
-		\begin{table}[!ht]
-			\centering
-			\input{ngrams/term-freq-sup-2-filtered.tex}~
-			\input{ngrams/term-freq-inf-2-filtered.tex}
-			\caption{2-grams frequencies for satisfied and unsatistied}
-			\label{tab:gram2_tf}
-		\end{table}
-		\begin{table}[!ht]
-			\centering
-			\input{ngrams/term-freq-sup-3-filtered.tex}~
-			\input{ngrams/term-freq-inf-3-filtered.tex}
-			\caption{3-grams frequencies for satisfied and unsatistied}
-			\label{tab:gram3_tf}
-		\end{table}
-		\begin{table}[!ht]
-			\centering
-			\input{ngrams/term-freq-sup-4-filtered.tex}~
-			\input{ngrams/term-freq-inf-4-filtered.tex}
-			\caption{4-grams frequencies for satisfied and unsatistied}
-			\label{tab:gram4_tf}
-		\end{table}
-		\begin{table}[!ht]
-        	\footnotesize
-			\centering
-			\input{ngrams/term-freq-sup-5-filtered.tex}~
-			\input{ngrams/term-freq-inf-5-filtered.tex}
-			\caption{5-grams frequencies for satisfied and unsatistied}
-			\label{tab:gram5_tf}
-		\end{table}
+		\centering
+		\input{ngrams/term-freq-sup-2-filtered.tex}~
+		\input{ngrams/term-freq-inf-2-filtered.tex}
+		\caption{2-grams frequencies for satisfied and unsatisfied}
+		\label{tab:gram2_tf}
+	\end{table}
+	\begin{table}[!ht]
+		\centering
+		\input{ngrams/term-freq-sup-3-filtered.tex}~
+		\input{ngrams/term-freq-inf-3-filtered.tex}
+		\caption{3-grams frequencies for satisfied and unsatisfied}
+		\label{tab:gram3_tf}
+	\end{table}
+	\begin{table}[!ht]
+		\centering
+		\input{ngrams/term-freq-sup-4-filtered.tex}~
+		\input{ngrams/term-freq-inf-4-filtered.tex}
+		\caption{4-grams frequencies for satisfied and unsatisfied}
+		\label{tab:gram4_tf}
+	\end{table}
+	\begin{table}[!ht]
+    	\footnotesize
+		\centering
+		\input{ngrams/term-freq-sup-5-filtered.tex}~
+		\input{ngrams/term-freq-inf-5-filtered.tex}
+		\caption{5-grams frequencies for satisfied and unsatisfied}
+		\label{tab:gram5_tf}
+	\end{table}
 
 
 \end{document}
