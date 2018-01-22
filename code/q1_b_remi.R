@@ -148,7 +148,7 @@ box()
 legend(x="topright", legend=c("< 6","6 -> 8",">= 8"), cex=0.8,fill=c("#F5BCA9","#F7D358","#D8F781"),bty="n")
 dev.print(device = png, file = "Level_of_satisfaction_according_to_TYPOLOGIE.png", width = 600)
 
-par(mar=c(4, 4, 4, 2) + 0.1)
+par(mar=c(2, 3, 3, 1) + 0.1,mfrow = c(1,2))
 table_satisfaction = t(cbind(table(data_insatisfied$TYPOLOGIE),table(data_neutral$TYPOLOGIE),table(data_satisfied$TYPOLOGIE)))
 for (i in 1:length(table_satisfaction[1,])){
   pie(table_satisfaction[,i], 
@@ -156,15 +156,16 @@ for (i in 1:length(table_satisfaction[1,])){
         col=c("#F5BCA9","#F7D358","#D8F781"), space = 2, las = 1,
         labels=c("","",""),
         #names.arg=tolower(levels(data_insatisfied$TYPOLOGIE)), 
-        main = "Level of satisfaction according to TYPOLOGIE")
+        main = tolower(levels(data_insatisfied$TYPOLOGIE)[i])
+  )
   box()
-  legend(x="topright", legend=c("< 6","6 -> 8",">= 8"), cex=0.8,fill=c("#F5BCA9","#F7D358","#D8F781"),bty="n")
+  legend(x="topright", legend=c("< 6","6 -> 8",">= 8"), cex=0.6,fill=c("#F5BCA9","#F7D358","#D8F781"),bty="n")
   file_name <- paste("Level_of_satisfaction_according_to_TYPOLOGIE",toString(i),".png",sep="")
   dev.print(device = png, file = file_name, width = 600)
 }
 
 # diagram of the nb of clients according to ages
-par(mar=c(4, 8, 4, 2) + 0.1)
+par(mar=c(4, 8, 4, 2) + 0.1,mfrow = c(1,1))
 barplot(t(cbind(table(data_insatisfied$TRANCHE_AGE),table(data_neutral$TRANCHE_AGE),table(data_satisfied$TRANCHE_AGE))), 
         horiz = TRUE, xlab = "nb of clients", 
         col=c("#F5BCA9","#F7D358","#D8F781"), space = 2, las = 1,
@@ -174,22 +175,22 @@ box()
 legend(x="topright", legend=c("< 6","6 -> 8",">= 8"), cex=0.8,fill=c("#F5BCA9","#F7D358","#D8F781"),bty="n")
 dev.print(device = png, file = "Level_of_satisfaction_according_to_TRANCHE_AGE.png", width = 600)
 
-par(mar=c(4, 4, 4, 2) + 0.1)
+par(mar=c(2, 3, 3, 1) + 0.1,mfrow = c(1,2))
 table_satisfaction = t(cbind(table(data_insatisfied$TRANCHE_AGE),table(data_neutral$TRANCHE_AGE),table(data_satisfied$TRANCHE_AGE)))
 for (i in 1:length(table_satisfaction[1,])){
   pie(table_satisfaction[,i], 
       horiz = TRUE, xlab = tolower(levels(data_insatisfied$TRANCHE_AGE)[i]), 
       col=c("#F5BCA9","#F7D358","#D8F781"), space = 2, las = 1,
       labels=c("","",""), 
-      main = "Level of satisfaction according to TRANCHE AGE")
+      main = tolower(levels(data_insatisfied$TRANCHE_AGE)[i]))
   box()
-  legend(x="topright", legend=c("< 6","6 -> 8",">= 8"), cex=0.8,fill=c("#F5BCA9","#F7D358","#D8F781"),bty="n")
+  legend(x="topright", legend=c("< 6","6 -> 8",">= 8"), cex=0.6,fill=c("#F5BCA9","#F7D358","#D8F781"),bty="n")
   file_name <- paste("Level_of_satisfaction_according_to_TRANCHE_AGE",toString(i),".png",sep="")
   dev.print(device = png, file = file_name, width = 600)
 }
 
 # diagram of the nb of insatisfied clients according to nature
-par(mar=c(4, 4, 4, 2) + 0.1)
+par(mar=c(4, 4, 4, 2) + 0.1, mfrow = c(1,1))
 barplot(t(cbind(table(data_insatisfied$NATURE_PERSONNE),table(data_neutral$NATURE_PERSONNE),table(data_satisfied$NATURE_PERSONNE))), 
         horiz = TRUE, xlab = "nb of clients", 
         col=c("#F5BCA9","#F7D358","#D8F781"), space = 2, las = 1,
@@ -199,22 +200,22 @@ box()
 legend(x="bottomright", legend=c("< 6","6 -> 8",">= 8"), cex=0.8,fill=c("#F5BCA9","#F7D358","#D8F781"),bty="n")
 dev.print(device = png, file = "Level_of_satisfaction_according_to_NATURE_PERSONNE.png", width = 600)
 
-par(mar=c(4, 4, 4, 2) + 0.1)
+par(mar=c(2, 3, 3, 1) + 0.1,mfrow = c(1,2))
 table_satisfaction = t(cbind(table(data_insatisfied$NATURE_PERSONNE),table(data_neutral$NATURE_PERSONNE),table(data_satisfied$NATURE_PERSONNE)))
 for (i in 1:length(table_satisfaction[1,])){
   pie(table_satisfaction[,i], 
       horiz = TRUE, xlab = tolower(levels(data_insatisfied$NATURE_PERSONNE)[i]), 
       col=c("#F5BCA9","#F7D358","#D8F781"), space = 2, las = 1,
       labels=c("","",""),
-      main = "Level of satisfaction according to NATURE PERSONNE")
+      main = tolower(levels(data_insatisfied$NATURE_PERSONNE)[i]))
   box()
-  legend(x="topright", legend=c("< 6","6 -> 8",">= 8"), cex=0.8,fill=c("#F5BCA9","#F7D358","#D8F781"),bty="n")
+  legend(x="topright", legend=c("< 6","6 -> 8",">= 8"), cex=0.6,fill=c("#F5BCA9","#F7D358","#D8F781"),bty="n")
   file_name <- paste("Level_of_satisfaction_according_to_NATURE_PERSONNE",toString(i),".png",sep="")
   dev.print(device = png, file = file_name, width = 600)
 }
 
 # diagram of the nb of insatisfied clients according to segmentation
-par(mar=c(4, 4, 4, 2) + 0.1)
+par(mar=c(4, 4, 4, 2) + 0.1, mfrow = c(1,1))
 barplot(t(cbind(table(data_insatisfied$SEGMENTATION_DISTRIBUTIVE),table(data_neutral$SEGMENTATION_DISTRIBUTIVE),table(data_satisfied$SEGMENTATION_DISTRIBUTIVE))), 
         horiz = TRUE, xlab = "nb of clients", 
         col=c("#F5BCA9","#F7D358","#D8F781"), space = 2, las = 1,
@@ -224,22 +225,22 @@ box()
 legend(x="bottomright", legend=c("< 6","6 -> 8",">= 8"), cex=0.8,fill=c("#F5BCA9","#F7D358","#D8F781"),bty="n")
 dev.print(device = png, file = "Level_of_satisfaction_according_to_SEGMENTATION_DISTRIBUTIVE.png", width = 600)
 
-par(mar=c(4, 4, 4, 2) + 0.1)
+par(mar=c(2, 3, 3, 1) + 0.1,mfrow = c(1,2))
 table_satisfaction = t(cbind(table(data_insatisfied$SEGMENTATION_DISTRIBUTIVE),table(data_neutral$SEGMENTATION_DISTRIBUTIVE),table(data_satisfied$SEGMENTATION_DISTRIBUTIVE)))
 for (i in 1:length(table_satisfaction[1,])){
   pie(table_satisfaction[,i], 
       horiz = TRUE, xlab = tolower(levels(data_insatisfied$SEGMENTATION_DISTRIBUTIVE)[i]), 
       col=c("#F5BCA9","#F7D358","#D8F781"), space = 2, las = 1,
       labels=c("","",""),
-      main = "Level of satisfaction according to SEGMENTATION_DISTRIBUTIVE")
+      main = tolower(levels(data_insatisfied$SEGMENTATION_DISTRIBUTIVE)[i]))
   box()
-  legend(x="topright", legend=c("< 6","6 -> 8",">= 8"), cex=0.8,fill=c("#F5BCA9","#F7D358","#D8F781"),bty="n")
+  legend(x="topright", legend=c("< 6","6 -> 8",">= 8"), cex=0.6,fill=c("#F5BCA9","#F7D358","#D8F781"),bty="n")
   file_name <- paste("Level_of_satisfaction_according_to_SEGMENTATION_DISTRIBUTIVE",toString(i),".png",sep="")
   dev.print(device = png, file = file_name, width = 600)
 }
 
 # diagram of the nb of insatisfied clients according to type of survey
-par(mar=c(4, 14, 4, 2) + 0.1)
+par(mar=c(4, 14, 4, 2) + 0.1, mfrow = c(1,1))
 barplot(t(cbind(table(data_insatisfied$Meta_donnee.25),table(data_neutral$Meta_donnee.25),table(data_satisfied$Meta_donnee.25))), 
         horiz = TRUE, xlab = "nb of clients", 
         col=c("#F5BCA9","#F7D358","#D8F781"), space = 2, las = 1,
@@ -249,16 +250,16 @@ box()
 legend(x="topright", legend=c("< 6","6 -> 8",">= 8"), cex=0.8,fill=c("#F5BCA9","#F7D358","#D8F781"),bty="n")
 dev.print(device = png, file = "Level_of_satisfaction_according_to_TYPE_OF_SURVEY.png", width = 600)
 
-par(mar=c(4, 4, 4, 2) + 0.1)
+par(mar=c(2, 3, 3, 1) + 0.1,mfrow = c(1,2))
 table_satisfaction = t(cbind(table(data_insatisfied$Meta_donnee.25),table(data_neutral$Meta_donnee.25),table(data_satisfied$Meta_donnee.25)))
 for (i in 1:length(table_satisfaction[1,])){
   pie(table_satisfaction[,i], 
       horiz = TRUE, xlab = tolower(levels(data_insatisfied$Meta_donnee.25)[i]), 
       col=c("#F5BCA9","#F7D358","#D8F781"), space = 2, las = 1,
       labels=c("","",""), 
-      main = "Level of satisfaction according to TYPE OF SURVEY")
+      main = tolower(levels(data_satisfaction$Meta_donnee.25)[i]))
   box()
-  legend(x="topright", legend=c("< 6","6 -> 8",">= 8"), cex=0.8,fill=c("#F5BCA9","#F7D358","#D8F781"),bty="n")
+  legend(x="topright", legend=c("< 6","6 -> 8",">= 8"), cex=0.6,fill=c("#F5BCA9","#F7D358","#D8F781"),bty="n")
   file_name <- paste("Level_of_satisfaction_according_to_TYPE_OF_SURVEY",toString(i),".png",sep="")
   dev.print(device = png, file = file_name, width = 600)
 }

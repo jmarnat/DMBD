@@ -132,8 +132,9 @@ box()
 dev.print(device = png, file = "Evolution_of_the_grade_between_two_satisfaction_surveys_-_Global.png", width = 600)
 
 # according to the first grade
+par(mfrow = c(1,2))
 for (i in 0:10) {
-  title <- paste("Evolution of the grade after a ",toString(i),sep=" ")
+  title <- paste("After a ",toString(i),sep=" ")
   barplot(t(table(evolution$global[evolution$first == i])), 
           horiz = FALSE, ylab = "nb of clients", ylim = c(0,70),
           space = 0.5, las = 1, width = 0.2,
@@ -146,7 +147,7 @@ for (i in 0:10) {
 # according to the typologie
 for (i in levels(evolution$TYPOLOGIE)) {
   if (length(evolution$global[evolution$TYPOLOGIE == i] != 0)){
-  title <- paste("Evolution of the grade according to Typologie",i,sep=" ")
+  title <- i
   barplot(t(table(evolution$global[evolution$TYPOLOGIE == i])), 
           horiz = FALSE, ylab = "nb of clients", ylim = c(0,70),
           space = 0.5, las = 1, width = 0.2,
@@ -160,7 +161,7 @@ for (i in levels(evolution$TYPOLOGIE)) {
 # according to the segmentation
 for (i in levels(evolution$SEGMENTATION_DISTRIBUTIVE)) {
   if (length(evolution$global[evolution$SEGMENTATION_DISTRIBUTIVE == i] != 0)){
-  title <- paste("Evolution of the grade according to Segmentation",i,sep=" ")
+  title <- i
   barplot(t(table(evolution$global[evolution$SEGMENTATION_DISTRIBUTIVE == i])), 
           horiz = FALSE, ylab = "nb of clients", ylim = c(0,70),
           space = 0.5, las = 1, width = 0.2,
@@ -174,7 +175,7 @@ for (i in levels(evolution$SEGMENTATION_DISTRIBUTIVE)) {
 # according to the nature
 for (i in levels(evolution$NATURE_PERSONNE)) {
   if (length(evolution$global[evolution$NATURE_PERSONNE == i] != 0)){
-  title <- paste("Evolution of the grade according to Nature",i,sep=" ")
+  title <- paste("Nature",i,sep=" ")
   barplot(t(table(evolution$global[evolution$NATURE_PERSONNE == i])), 
           horiz = FALSE, ylab = "nb of clients", 
           space = 0.5, las = 1, width = 0.2,
@@ -188,7 +189,7 @@ for (i in levels(evolution$NATURE_PERSONNE)) {
 # according to the tranche
 for (i in levels(evolution$TRANCHE_AGE)) {
   if (length(evolution$global[evolution$TRANCHE_AGE == i] != 0)){
-  title <- paste("Evolution of the grade according to Tranche d'age",i,sep=" ")
+  title <- i
   barplot(t(table(evolution$global[evolution$TRANCHE_AGE == i])), 
           horiz = FALSE, ylab = "nb of clients", ylim = c(0,70),
           space = 0.5, las = 1, width = 0.2,
@@ -202,7 +203,7 @@ for (i in levels(evolution$TRANCHE_AGE)) {
 # according to the marche_csp
 for (i in levels(evolution$MARCHE_CSP)) {
   if (length(evolution$global[evolution$MARCHE_CSP == i] != 0)){
-    title <- paste("Evolution of the grade according to Marche CSP",i,sep=" ")
+    title <- i
     barplot(t(table(evolution$global[evolution$MARCHE_CSP == i])), 
             horiz = FALSE, ylab = "nb of clients", ylim = c(0,70),
             space = 0.5, las = 1, width = 0.2,
@@ -216,7 +217,7 @@ for (i in levels(evolution$MARCHE_CSP)) {
 # according to the marche_pso
 for (i in levels(evolution$MARCHE_PSO)) {
   if (length(evolution$global[evolution$MARCHE_PSO == i] != 0)){
-    title <- paste("Evolution of the grade according to Marche PSO",i,sep=" ")
+    title <- i
     barplot(t(table(evolution$global[evolution$MARCHE_PSO == i])), 
             horiz = FALSE, ylab = "nb of clients", ylim = c(0,70),
             space = 0.5, las = 1, width = 0.2,
