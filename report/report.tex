@@ -57,9 +57,13 @@
 \newpage
 \section{Introduction} % jos
 \label{sec:intro}
-	This project aims at studying a dataset given by the University, in collaboration with Groupama, a French insurance group. As we will see in the next section, the dataset is composed of relational tables, and a set of surveys answers from customers. The goal is to find the actors -- words, sequence of words -- of (un)satisfaction according to the grades the customers gave in the surveys ; analysis the complaints in function of the customer category, profile, area ; and study the evolution of the customers satisfaction.
+	This project aims at studying a dataset given by the University, in collaboration with Groupama, a French insurance group. As we will see in the next section, the dataset is composed of relational tables, and a set of surveys answers from customers. The goal is to find the actors -- words, sequence of words -- of (un)satisfaction according to the grades the customers gave in the surveys ; analysis the complaints in function of the customer category, profile, area ; and study the evolution of the customers satisfaction. \\
 
-    Section~\ref{sec:data_descr} presents the given dataset, section~\ref{sec:dataset_load} explains how we loaded and the issues we had to face, section~\ref{sec:sat_survey_anal},\ref{sec:recl_anal} and \ref{sec:com_anal} presents the analysis of the customers satisfaction surveys according to various variables, the reclamations reasons, and the comments analysis in satisfaction surveys.
+    Section~\ref{sec:data_descr} presents the given dataset, section~\ref{sec:dataset_load} explains how we loaded and the issues we had to face, section~\ref{sec:sat_survey_anal},\ref{sec:recl_anal} and \ref{sec:com_anal} presents the analysis of the customers satisfaction surveys according to various variables, the reclamations reasons, and the comments analysis in satisfaction surveys. \\
+
+    All the code used in this project is available in the folder \tw{code/*.R}. You will have to change the path to the folder \tw{big\_data\_project\_confidential} at the beginning of each script inside the command \tw{setwd(path\_here)}. \\
+
+    All the figures and tables are located in the appendix at the end of the report.
 
 \section{Description of the dataset} % jos
 \label{sec:data_descr}
@@ -118,10 +122,10 @@
     For this criterion~\ref{fig:SEGMENTATION_DISTRIBUTIVE}, we have to remember that :
     \begin{itemize}[noitemsep]
     \item N = Nouveau,
-    \item S1 = A laisser venir,
-    \item S2 = A fidéliser,
-    \item S3 = A redécouvrir et multi-équiper,
-    \item S4 = A développer et fidéliser.
+    \item S1 = `A laisser venir',
+    \item S2 = `A fidéliser',
+    \item S3 = `A redécouvrir et multi-équiper',
+    \item S4 = `A développer et fidéliser'.
     \end{itemize}
     The problem is that this field is not always complete in the file \tw{BASE\_Donnees\_Clients}. Sometimes there is nothing, sometimes just a dot, and sometimes null and for all these situations, it seems there is no correlation with other criteria. The rest of the comparison is done without these values.
     
@@ -199,10 +203,25 @@
      
 \section{Conclusion}
 \label{sec:ccl}
+    We have seen several approaches to analyze the given dataset: data preprocess, satisfaction analysis, term frequency on $n$-grams, evolution of the grades. We get graphical results on the level of satisfaction that reveals the general thoughts of the customers according to various parameters, we observed that generally the grade are not changing by much over time for each customer, and finally retrieved the lexicon of satisfied / unsatisfied customers in order to propose solutions to increase their satisfaction. \\
 
+    Finally, we hope that these results will be useful to the company Groupama, who provided the data. \\
 
-\newpage
+    Thank you for reading.
+
+\clearpage
 \appendix
+
+\section*{Appendix}
+\label{appendix}
+
+{
+    \footnotesize
+    \listoffigures
+    \listoftables
+}
+\clearpage    
+
     \begin{figure}[!ht]
     \section{Levels of satisfaction}
     %\label{sec:}

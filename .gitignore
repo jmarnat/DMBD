@@ -2,6 +2,8 @@ report/*.aux
 report/*.fdb*
 report/*.fls
 report/*.log
+report/*.lof
+report/*.lot
 report/*.out
 report/*.synctex.gz
 report/*.toc

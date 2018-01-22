@@ -52,7 +52,7 @@ for (op in c('sup','inf')) {
   }  
   
   
-  shorts <- c('j','c','a','y','à','d','n','ere','m','l')
+  shorts <- c('j','c','a','y','à','d','n','ere','m','l','s')
   corpus_bad <- Corpus(DataframeSource(corpus))
   corpus_bad <- tm_map(corpus_bad, content_transformer(tolower))
   corpus_bad <- tm_map(corpus_bad, removeNumbers)
