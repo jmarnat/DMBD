@@ -175,15 +175,26 @@
 
 \section{Comments analysis in satisfaction surveys}
 \label{sec:com_anal}
-    The goal of this section was to understand the reasons for customer satisfaction and dissatisfaction. To reproduce our results please edit the script \tw{q2$\_$keywords.R} by changing the first and put the path where the table are.
+    \subsection{Analysis using term-frequencies of n-grams}
+        The goal of this section was to understand the reasons for customer satisfaction and dissatisfaction. To reproduce our results please edit the script \tw{q2$\_$keywords.R} by changing the first and put the path where the table are.
 
-    At first, we gathered all the comments from the satisfaction according to the satisfaction rating: one set for the good ratings -- the highest 30\%) and the bad ratings.
-    Then, we removes the French stop-words: prepositions, articles, pronouns ; as well as numbers. And retrieved the roots of words by stemming, in order to remove conjugations, feminine or plural forms. This allowed us to group the words together more efficiently.
-    Finally, we computer the $n$-grams for $n \in [1..5]$. For example, the sentence `I like your car' has the following 2-grams: `I like', `like your', and `your car' ;
-    and we extracted the 20 most frequent terms on this $n$-grams dataset.
-    In order to keep only the meaning-full $n$-grams, we computed the intersection between the satisfied and unsatisfied $n$-grams, and removed them from the tables. Thus, the $n$-grams are exclusively attributed to on set of comments.
+        At first, we gathered all the comments from the satisfaction according to the satisfaction rating: one set for the good ratings -- the highest 30\%) and the bad ratings.
+        Then, we removed the French stop-words: prepositions, articles, pronouns ; as well as numbers. And retrieved the roots of words by stemming, in order to remove conjugations, feminine or plural forms. This allowed us to group the words together more efficiently.
+        Finally, we computed the $n$-grams for $n \in [1..5]$. For example, the sentence `I like your car' has the following 2-grams: `I like', `like your', and `your car' ;
+        and we extracted the 20 most frequent terms on this $n$-grams dataset.
+        In order to keep only the meaning-full $n$-grams, we removed from the satisfied and unsatisfied tables the $n$-grams who appears in both tables -- \textit{i.e.} we removed the intersection. Thus, the $n$-grams are exclusively attributed to one set of comments.
 
-    We obtained what is shown in tables \ref{tab:gram1_tf} to \ref{tab:gram5_tf}. You can see for each set of two tables: 1) on the left: the 20 most frequent $n$-grams according to satisfied customers and 2) on the right: according to the unsatisfied clients.
+        We obtained what is shown in tables \ref{tab:gram1_tf} to \ref{tab:gram5_tf}. You can see for each set of two tables: 1) on the left: the 20 most frequent $n$-grams according to satisfied customers and 2) on the right: according to the unsatisfied clients.
+
+    \subsection{Solutions to improve customers satisfaction}
+        According to the previously mention tables, we can observe that satisfaction comes along terms like `rapid(e)', `bon accueil', `bon(s) conseil(s)', `répons(e) rapid(e)', `très bien renseign(é)', and unsatisfaction with `trop long', `trop cher', `del(ai) trop long', `sinistr(e) non respons(able)', `toujour(s) rien reçu'.
+        We can deduce the following improvements:
+        \begin{itemize}
+            \item keep welcoming people the same way ;
+            \item treat the clients request more quickly or explain why it's long ;
+            \item explain clearly every details of the insurances ;
+            \item discuss more with the customer for the responsibility of a sinister.
+        \end{itemize}
 
      
 \section{Conclusion}
